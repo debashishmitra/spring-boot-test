@@ -25,7 +25,7 @@ public class ActorResource {
 	@Autowired
 	private ActorService actorService;
 
-	@GetMapping(path = "/id/{id}")
+	@GetMapping(path = "/{id}")
 	public Actor getActorById(@PathVariable("id") Long id) {
 		Actor actor = actorService.getActorById(id);
 		return actor;

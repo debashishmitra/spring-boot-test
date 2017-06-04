@@ -12,6 +12,13 @@ import com.debashish.programs.testprograms.springboottest.domain.Actor;
  */
 public interface ActorRepository extends PagingAndSortingRepository<Actor, Long> {
 
-	List<Actor> getByFirstName(String firstName);
+	List<Actor> findByFirstName(String firstName);
+
+	List<Actor> findByFirstNameOrderByLastName(String firstName);
 	
+	List<Actor> findAllByOrderByFirstNameAscLastNameAsc();
+	
+	Long countByFirstName(String firstName);
+
+	Long countByLastName(String lastName);
 }

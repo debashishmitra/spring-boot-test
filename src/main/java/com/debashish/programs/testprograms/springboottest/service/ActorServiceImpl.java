@@ -31,13 +31,15 @@ public class ActorServiceImpl implements ActorService {
 	public List<Actor> getAllActors() {
 		List<Actor> allActors = new ArrayList<Actor>();
 		Iterable<Actor> actors = actorRepository.findAll();
+//		Iterable<Actor> actors = actorRepository.findAllByOrderByFirstNameAscLastNameAsc();
+//		Iterable<Actor> actors = actorRepository.findAll(new Sort(Sort.Direction.ASC, "firstName", "lastName"));
 		actors.forEach(allActors::add);
 		return allActors;
 	}
 
 	@Override
 	public List<Actor> getActorByFirstName(String firstName) {
-		List<Actor> actors = actorRepository.getByFirstName(firstName);
+		List<Actor> actors = actorRepository.findByFirstNameOrderByLastName(firstName);
 		return actors;
 	}
 
@@ -49,5 +51,15 @@ public class ActorServiceImpl implements ActorService {
 		pageSize = pageSize != null && pageSize > 0 ? pageSize : 10;
 		Page<Actor> page = actorRepository.findAll(new PageRequest(pageNumber, pageSize));
 		return page.getContent();
+	}
+
+	@Override
+	public Long countByFirstName(String firstName) {
+		return actorRepository.countByFirstName(firstName);
+	}
+
+	@Override
+	public Long countByLastName(String lastName) {
+		return actorRepository.countByLastName(lastName);
 	}
 }

@@ -17,4 +17,8 @@ public interface ActorService {
 	List<Actor> getActorByFirstName(String firstName);
 	
 	List<Actor> getPagedActors(Integer pageNumber, Integer pageSize);
+	
+	Long countByFirstName(String firstName);
+
+	Long countByLastName(String lastName);
 }
