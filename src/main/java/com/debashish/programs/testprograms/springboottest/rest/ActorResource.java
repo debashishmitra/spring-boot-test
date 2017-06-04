@@ -21,27 +21,35 @@ import com.debashish.programs.testprograms.springboottest.service.ActorService;
 @RestController
 @RequestMapping("/actors")
 public class ActorResource {
-	
+
 	@Autowired
 	private ActorService actorService;
 
-	@GetMapping(path="/{id}")
-	public Actor getActor(@PathVariable("id") Long id) {
+	@GetMapping(path = "/id/{id}")
+	public Actor getActorById(@PathVariable("id") Long id) {
 		Actor actor = actorService.getActorById(id);
 		return actor;
 	}
 
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Actor> getActors(@RequestParam(name="id", required=false) Integer id) {
-		List<Actor> actors = actorService.getAllActors();
-		if(id != null) {
-			actors = actors.stream().filter(a -> a.getId() == id).collect(Collectors.toList());
+	@RequestMapping(method = RequestMethod.GET)
+	public List<Actor> getAllActors(@RequestParam(name = "id", required = false) Integer id, @RequestParam(name = "pageNumber", required = false) Integer pageNumber, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+		List<Actor> actors;
+		if (pageNumber == null && pageSize == null) {
+			actors = actorService.getAllActors().stream().filter(a -> id == null ? true : a.getId() == id).collect(Collectors.toList());
+		} else {
+			actors = actorService.getPagedActors(pageNumber, pageSize);
 		}
 		return actors;
 	}
-	
-	@RequestMapping(path="/filter", method=RequestMethod.GET)
-	public List<Actor> getActorByFirstName(@RequestParam(name="firstName") String firstName) {
+
+	@RequestMapping(path = "/firstName/{firstName}", method = RequestMethod.GET)
+	public List<Actor> getActorByFirstName(@PathVariable(name = "firstName") String firstName) {
+		List<Actor> actors = actorService.getActorByFirstName(firstName);
+		return actors;
+	}
+
+	@RequestMapping(path = "/filter", method = RequestMethod.GET)
+	public List<Actor> getActorByFilter(@RequestParam(name = "firstName") String firstName) {
 		List<Actor> actors = actorService.getActorByFirstName(firstName);
 		return actors;
 	}

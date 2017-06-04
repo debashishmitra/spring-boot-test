@@ -15,4 +15,6 @@ public interface ActorService {
 	List<Actor> getAllActors();
 	
 	List<Actor> getActorByFirstName(String firstName);
+	
+	List<Actor> getPagedActors(Integer pageNumber, Integer pageSize);
 }
