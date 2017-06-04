@@ -1,0 +1,1 @@
+A Java project (using Maven) showing the use of SpringBoot, Spring REST, Spring Data JPA etc
