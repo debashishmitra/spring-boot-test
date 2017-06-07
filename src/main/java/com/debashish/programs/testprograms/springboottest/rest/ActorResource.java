@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.debashish.programs.testprograms.springboottest.domain.Actor;
+import com.debashish.programs.testprograms.springboottest.repository.ActorRepository;
 import com.debashish.programs.testprograms.springboottest.service.ActorService;
 
 /**
@@ -25,6 +26,9 @@ public class ActorResource {
 	@Autowired
 	private ActorService actorService;
 
+	@Autowired
+	private ActorRepository actorRepository;
+	
 	@GetMapping(path = "/{id}")
 	public Actor getActorById(@PathVariable("id") Long id) {
 		Actor actor = actorService.getActorById(id);
@@ -53,4 +57,12 @@ public class ActorResource {
 		List<Actor> actors = actorService.getActorByFirstName(firstName);
 		return actors;
 	}
+	
+	@GetMapping("/fullName")
+	public Actor getByFullName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+		Actor a = actorRepository.findByFirstNameAndLastName(firstName, lastName);
+		//		Actor a = actorRepository.findByName(firstName, lastName);
+		return a;
+	}
+	
 }
